@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Cows</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: url('/static/background/total-cows-background.jpg'); /* Replace with your background image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        li {
+            background-color: rgba(0, 0, 0, 0.7);
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Total Cows</h1>
+
+    <ul>
+        <!-- Loop through cows and display their details -->
+        {% for cow in cows %}
+        <li>{{ cow.name }} - {{ cow.breed }} - {{ cow.age }} years old - {{ cow.weight }} kg</li>
+        {% endfor %}
+    </ul>
+    <button onclick="window.location.href='/cows'">Go Back to Cows</button>
+</body>
+</html>

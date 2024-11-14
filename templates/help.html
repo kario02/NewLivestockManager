@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .info-section {
+            margin-top: 30px;
+        }
+        .info-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        .info-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .info-section .icon {
+            font-size: 1.5rem;
+            color: #007bff;
+            margin-right: 10px;
+        }
+        .info-section .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Help & Support</h1>
+        <form method="POST" action="/submit_help_request">
+            <div class="form-group">
+                <label for="issue">Please state your problem:</label>
+                <textarea id="issue" name="issue" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="email">Your Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+        <div class="info-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="info-item">
+                <i class="fas fa-question-circle icon"></i>
+                <p><strong>How do I register a new calf?</strong> To register a new calf, go to the Calvings section and fill out the registration form.</p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-question-circle icon"></i>
+                <p><strong>How can I add health records?</strong> Navigate to the Calvings section and fill out the health record form.</p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-question-circle icon"></i>
+                <p><strong>How do I view daily schedules?</strong> You can view daily schedules by entering the calf ID in the schedules section under Calvings.</p>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

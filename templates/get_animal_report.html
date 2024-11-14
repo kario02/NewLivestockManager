@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Reports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+        }
+        td {
+            text-align: center;
+        }
+        .download-button {
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Animal Reports</h1>
+
+    <!-- Form to select animal -->
+    <div class="form-container">
+        <form method="POST" action="/get_animal_report">
+            <label for="animal_id">Select Animal:</label>
+            <select id="animal_id" name="animal_id" required>
+                <!-- Options should be populated dynamically from the backend -->
+                <option value="1">Animal 1</option>
+                <option value="2">Animal 2</option>
+                <option value="3">Animal 3</option>
+                <!-- Add more options as needed -->
+            </select>
+            <button type="submit">View Report</button>
+        </form>
+    </div>
+
+    <!-- Display the report in a table format -->
+    <div class="table-container">
+        <table id="reportTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Weight (kg)</th>
+                    <th>Health Status</th>
+                    <th>Milk Production (L)</th>
+                    <!-- Add other report columns as needed -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td>{{ report.date }}</td>
+                    <td>{{ report.weight }}</td>
+                    <td>{{ report.health_status }}</td>
+                    <td>{{ report.milk_production }}</td>
+                    <!-- Add other data fields as needed -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Button to download the report -->
+    <button class="download-button" onclick="downloadReport()">Download Report</button>
+
+    <script>
+        // JavaScript function to download the report as a CSV file
+        function downloadReport() {
+            const table = document.getElementById('reportTable');
+            let csv = [];
+            for (let row of table.rows) {
+                let cols = [];
+                for (let cell of row.cells) {
+                    cols.push(cell.innerText);
+                }
+                csv.push(cols.join(","));
+            }
+            const csvContent = csv.join("\n");
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'animal_report.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+
+</body>
+</html>

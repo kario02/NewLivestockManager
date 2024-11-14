@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cow Types</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: url('/static/background/background-image7.jpg'); /* Path to your background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.6); /* Transparent background for list items */
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: lawngreen;
+            color: black;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cow Types</h1>
+
+    <button onclick="window.location.href='/dashboard'">Home</button>
+
+    <ul>
+        {% for breed, count in cow_types %}
+        <li>{{ breed }}: {{ count }} cows</li>
+        {% endfor %}
+    </ul>
+    <button onclick="window.location.href='/cows'">Go Back to Cows</button>
+</body>
+</html>

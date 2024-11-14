@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            transition: background-image 2s ease-in-out; /* Smooth transition effect */
+            /*background-color: grey;*/
+
+            margin: 0;
+            padding: 0;
+        }
+
+        .background-1 {
+            background-image: url('/static/background/background-image.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .background-2 {
+            background-image: url('/static/background/background-image1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .background-3 {
+            background-image: url('/static/background/background-image2.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            padding: 20px;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            gap: 20px;
+
+        }
+        h1 {
+            color: white;
+            display: block;
+        }
+        .section {
+            background-color: lightcyan;
+            color: black;
+            padding: 20px;
+            margin: 20px 0;
+            width: 400px;
+            border-radius: 10px;
+        }
+        .section h3 {
+            margin-top: 0;
+        }
+        .section button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .section button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body class="background-1">
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/farm_calendar">Farm Calendar</a></li>
+            <li><a href="/cows">Cattle</a></li>
+            <li><a href="/calvings">Calvings</a></li>
+            <li><a href="/weaners">Weaners</a></li>
+            <li><a href="/financial_manager">Financial Manager</a></li>
+            <li><a href="/milk_records">Milk Records</a></li>
+            <li><a href="/reports">Reports</a></li>
+            <li><a href="/inventory">Inventory</a></li>
+            <li><a href="/help">Help</a></li>
+            <li><a href="/logout">Log Out</a></li>
+        </ul>
+    </nav>
+    <h1>Welcome to the Dashboard</h1>
+
+    {% if session['user_role'] == 'scientist' %}
+        <p>View <a href="/cows">Cows</a></p>
+        <p>View <a href="/calvings">Calves</a></p>
+        <p>View <a href="/health_records">Health Records</a></p>
+    {% elif session['user_role'] == 'milk_person' %}
+        <p>Manage <a href="/milk_records">Milk Records</a></p>
+    {% elif session['user_role'] == 'admin' %}
+        <p>Admin Options: <a href="/admin">Admin Page</a></p>
+    {% endif %}
+
+    <div class="container">
+
+
+        <div class="section">
+            <h3>Cows</h3>
+            <button onclick="window.location.href='/cows'">View Details</button>
+        </div>
+
+
+
+        <div class="section">
+            <h3>Calvings</h3>
+            <button onclick="window.location.href='/calvings'">View Details</button>
+        </div>
+
+
+
+        <div class="section">
+            <h3>Weaners</h3>
+            <button onclick="window.location.href='/weaners'">View Details</button>
+        </div>
+
+
+
+        <div class="section">
+            <h3>Milk Records</h3>
+            <button onclick="window.location.href='/milk_records'">View Details</button>
+        </div>
+
+
+
+        <div class="section">
+            <h3>Reports</h3>
+            <button onclick="window.location.href='/get_animal_report'">View Details</button>
+        </div>
+
+
+        <div class="section">
+            <h3>Inventory</h3>
+            <button onclick="window.location.href='/inventory'">View Details</button>
+        </div>
+
+    </div>
+<script>
+        // JavaScript function to alternate background images
+        let currentBackground = 1; // Start with background-1
+
+        function changeBackground() {
+            // Get the body element
+            const body = document.body;
+
+            // Toggle between backgrounds by switching classes
+            if (currentBackground === 1) {
+                body.classList.remove('background-1');
+                body.classList.add('background-2');
+                currentBackground = 2;
+            } else if (currentBackground === 2) {
+                body.classList.remove('background-2');
+                body.classList.add('background-3');
+                currentBackground = 3;
+            } else {
+                body.classList.remove('background-3');
+                body.classList.add('background-1');
+                currentBackground = 1;
+            }
+
+        }
+
+        // Change background every 5 seconds (5000 ms)
+        setInterval(changeBackground, 5000);
+</script>
+</body>
+</html>

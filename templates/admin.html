@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            background-image: url('/static/background/background-image12.jpg');
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+        }
+        h2 {
+            color: white;
+        }
+        .section {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+
+        <!-- User Management Section -->
+        <div class="section">
+            <h2>User Management</h2>
+            <button onclick="window.location.href='/register'">Register New User</button>
+            <button onclick="window.location.href='/view_users'">View All Users</button>
+            <button onclick="window.location.href='/edit_user'">Edit User Roles</button>
+            <button onclick="window.location.href='/reset_password'">Reset User Passwords</button>
+        </div>
+
+        <!-- Livestock Management Section -->
+        <div class="section">
+            <h2>Livestock Management</h2>
+            <button onclick="window.location.href='/cows'">View All Cows</button>
+            <button onclick="window.location.href='/register_cow'">Add New Cow</button>
+            <button onclick="window.location.href='/manage_calvings'">Manage Calvings</button>
+            <button onclick="window.location.href='/milk_records'">Manage Milk Records</button>
+        </div>
+
+        <!-- Reports Section -->
+        <div class="section">
+            <h2>Reports and Analytics</h2>
+            <button onclick="window.location.href='/generate_reports'">Generate Reports</button>
+            <button onclick="window.location.href='/view_statistics'">View Statistics</button>
+            <button onclick="window.location.href='/export_data'">Export Data</button>
+        </div>
+
+        <!-- Help Requests Section -->
+        <div class="section">
+            <h2>Help and Support</h2>
+            <button onclick="window.location.href='/view_help_requests'">View Help Requests</button>
+            <button onclick="window.location.href='/send_notifications'">Send Notifications</button>
+        </div>
+
+        <!-- Logout Button -->
+        <button onclick="window.location.href='/logout'">Logout</button>
+    </div>
+</body>
+</html>

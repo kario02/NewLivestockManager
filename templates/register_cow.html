@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Cow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('/static/background/background-image6.jpg'); /* Path to your background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: green;
+        }
+        form {
+            text-align: center;
+            margin-top: 150px;
+            background-color: rgba(0, 0, 0, 0.7); /* Optional background for form */
+            padding: 20px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        input, select {
+            margin: 10px;
+            padding: 10px;
+            width: 700px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center;">Register a New Cow</h1>
+
+    <button onclick="window.location.href='/dashboard'">Home</button>
+
+    <div style="text-align:center;">
+        <form action="/register_cow" method="POST">
+            <label for="name">Name</label><br>
+            <input type="text" id="name" name="name" required><br>
+
+            <label for="breed">Breed</label><br>
+            <input type="text" id="breed" name="breed" required><br>
+
+            <label for="age">Age (in years)</label><br>
+            <input type="number" id="age" name="age" required><br>
+
+            <label for="weight">Weight (in kg)</label><br>
+            <input type="number" id="weight" name="weight" required step="0.1"><br>
+
+            <label for="status">Status</label><br>
+            <select id="status" name="status" required>
+                <option value="Milking">Milking</option>
+                <option value="Pregnant">Pregnant</option>
+                <option value="Dry">Dry</option>
+                <option value="Weaner">Weaner</option>
+            </select><br>
+
+            <button type="submit">Register Cow</button>
+        </form>
+    </div>
+</body>
+</html>

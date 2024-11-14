@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calvings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background:  linear-gradient(-45deg, darkgray, darkslategray, darkgreen, greenyellow);
+            /*background-image: url('/static/background/background-image9.jpg');*/
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #333;
+        }
+        .container {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for content */
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        form h2 {
+            margin-top: 0;
+        }
+        form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        form input, form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calvings</h1>
+
+        <button onclick="window.location.href='/dashboard'">Home</button>
+
+        <form method="POST" action="/register_calf">
+            <h2>Register New Calf</h2>
+            <label for="calf_name">Calf Name:</label>
+            <input type="text" id="calf_name" name="calf_name" required>
+
+            <label for="calf_birth_date">Birth Date:</label>
+            <input type="date" id="calf_birth_date" name="calf_birth_date" required>
+
+            <label for="calf_breed">Breed:</label>
+            <input type="text" id="calf_breed" name="calf_breed" required>
+
+            <label for="calf_weight">Weight (kg):</label>
+            <input type="number" id="calf_weight" name="calf_weight" required>
+
+            <label for="dam_name">Dam Name (Mother):</label>
+            <input type="text" id="dam_name" name="dam Name" required>
+
+            <label for="sire_name">Sire Name (Father):</label>
+            <input type="text" id="sire_name" name="sire Name" >
+
+            <button type="submit">Register Calf</button>
+             <button onclick="window.location.href='/view_calves'">View Registered Calves</button>
+        </form>
+
+        <form method="POST" action="/add_health_record">
+            <h2>Add Health Record</h2>
+            <label for="calf_id">Calf ID:</label>
+            <input type="text" id="calf_id" name="calf_id" required>
+            <label for="health_record">Health Record:</label>
+            <textarea id="health_record" name="health_record" rows="4" required></textarea>
+            <button type="submit">Add Health Record</button>
+        </form>
+
+        <form method="GET" action="/view_schedules">
+            <h2>Daily Schedules</h2>
+            <label for="calf_id_schedule">Calf ID:</label>
+            <input type="text" id="calf_id_schedule" name="calf_id_schedule" required>
+            <button type="submit">View Schedule</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Livestock Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            background-color:darkmagenta;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Livestock Manager</h2>
+        <a href="/">Home</a>
+        <a href="/farm_calendar">Farm Calendar</a>
+        <a href="/cattle">Cattle</a>
+        <a href="/calving">Calving</a>
+        <a href="/financial_manager">Financial Manager</a>
+        <a href="/milk_production">Milk Production</a>
+        <a href="/help">Help</a>
+        <a href="/logout">Log Out</a>
+    </div>
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

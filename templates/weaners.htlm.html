@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weaners</title>
+</head>
+<body>
+    <h1>Weaners</h1>
+    <ul>
+        {% for weaner in weaners %}
+            <li>{{ weaner.details }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
