@@ -229,7 +229,7 @@ def help():
     if request.method == 'POST':
         issue = request.form['issue']
         email = request.form['email']
-        # TODO: Handle the help request (e.g., save to the database, send an email, etc.)
+
         return redirect(url_for('help'))
     return render_template('help.html')
 
@@ -388,7 +388,7 @@ def add_health_record():
     calf_id = request.form['calf_id']
     health_record = request.form['health_record']
     # Save to the database
-    # TODO: Add your database code here to save the health record
+
     return redirect(url_for('calvings'))
 
 @app.route('/view_schedules', methods=['GET'])
@@ -397,7 +397,7 @@ def view_schedules():
     # Extract form data
     calf_id_schedule = request.args['calf_id_schedule']
     # Fetch from the database
-    # TODO: Add your database code here to fetch the schedule
+
     # For now, let's return a simple page
     schedules = [
         {'task': 'Feeding', 'time': '08:00 AM'},
