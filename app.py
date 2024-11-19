@@ -3,8 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
 from flask import render_template, request, redirect, url_for
+import mysql.connector
 from sqlalchemy import or_
 import webbrowser
+
 from flask_mail import Mail, Message
 from functools import wraps
 
@@ -57,7 +59,7 @@ class User(db.Model):
 
 class animal(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(80), nullable=False)
+    species = db.Column(db.String(80), nullable=False)
     breed = db.Column(db.String(80), nullable=False)
     age = db.Column(db.Integer, nullable=False)
     weight = db.Column(db.Float, nullable=False)
@@ -71,6 +73,12 @@ class Calf(db.Model):
     calf_weight = db.Column(db.Float, nullable=False)
     dam_name = db.Column(db.String(255), nullable=False)  # Dam is the mother cow's name
     sire_name = db.Column(db.String(255), nullable=False)  # Sire is the father bull's name
+
+class report(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    breed = db.Column(db.String(80), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    sex = db.Column(db.String(80), nullable=False)
 
 
 # Routes
@@ -207,15 +215,15 @@ def register_cow():
 
         pass
 
-        name = request.form['name']
+        species = request.form['name']
         breed = request.form['breed']
         age = request.form['age']
         weight = request.form['weight']
         status = request.form['status']
 
-        print(f"Name: {name}, Breed: {breed}, Age: {age}, Weight: {weight}, Status: {status}")
+        print(f"Name: {species}, Breed: {breed}, Age: {age}, Weight: {weight}, Status: {status}")
 
-        new_cow = animal(name=name, breed=breed, age=int(age), weight=float(weight), status=status)
+        new_cow = animal(name=species, breed=breed, age=int(age), weight=float(weight), status=status)
 
         db.session.add(new_cow)
         db.session.commit()
@@ -331,17 +339,72 @@ def add_milk_record():
     # Logic to add a milk record
     return redirect(url_for('milk_records'))
 
-@app.route('/get_animal_report', methods=['POST'])
-@roles_required('scientist', 'admin')
-def get_animal_report():
-    # Retrieve reports data from the database
-    animal_id = request.form['id']
-    reports = animal.query.filter_by(id=animal_id).first()  # Replace with actual data retrieval
-    if reports:
-        return render_template('get_animal_report.html', reports=reports)
-    else:
-        # Handle case where no reports are found
-        return render_template('get_animal_report.html', error="No reports found for this animal.")
+
+
+# Route for the animal report page
+@app.route('/animal_report', methods=['GET', 'POST'])
+def animal_report():
+    # Connect to the database
+    conn = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="brayookk7",
+        database="livestock"
+    )
+    cursor = conn.cursor()
+
+    # Fetch all animals for the dropdown
+    cursor.execute("SELECT id, species FROM animal")
+    animals = cursor.fetchall()
+
+    animal_data = None #{}
+    reports = []
+
+    if request.method == 'POST':
+        # Fetch the selected animal ID
+        species = request.form.get('species')
+        breed = request.form.get('breed')
+        herd = request.form.get('herd')
+        animal_id = request.form.get('animal_id')
+
+        # Build query dynamically based on selected filters
+        query = "SELECT id, species, breed, age, weight, status, dam_number, sire_number, date_of_birth, date_acquired, color, sex FROM animal WHERE 1=1"
+        params = []
+
+        if species:
+            query += " AND species = %s"
+            params.append(species)
+
+        if breed:
+            query += " AND breed = %s"
+            params.append(breed)
+
+        if herd:
+            query += " AND herd = %s"
+            params.append(herd)
+
+        if animal_id:
+            query += " AND id = %s"
+            params.append(animal_id)
+
+        # Fetch animal data based on filters
+        cursor.execute(query, tuple(params))
+        animal_data = cursor.fetchone()
+
+        # If an animal is selected, fetch related report data
+        if animal_id:
+            cursor.execute(
+                "SELECT breed, age, sex FROM report WHERE id = %s",
+                (animal_id,)
+            )
+            reports = cursor.fetchall()
+
+    conn.close()
+
+    # Render template with data
+    return render_template('animal_report.html', animals=animals, animal_data=animal_data, reports=reports)
+
+
 
 
 @app.route('/inventory')
