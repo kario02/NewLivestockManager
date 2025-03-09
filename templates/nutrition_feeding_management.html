@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition and Feeding Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e8f5e9;
+            background-size: 400% 400%;
+            animation: gradientAnimation 8s ease infinite;
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+
+        header {
+            background-color: #2e7d32;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            margin: 0 4.4rem;
+            width: 90%;
+            border-radius: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+        }
+
+        .menu-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15rem;
+            padding: 5rem;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-item h3 {
+            margin: 0 0 10px 0;
+        }
+
+        .menu-item button {
+            background-color: #2e7d32;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-item button:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Nutrition and Feeding Management</h1>
+    </header>
+
+    <div class="menu-container">
+        <div class="menu-item">
+            <h3>Feeding Programmes</h3>
+            <p>Track feeding schedules and feed conversion ratios.</p>
+            <button onclick="window.location.href='/feeding_programmes'">View Details</button>
+        </div>
+        <div class="menu-item">
+            <h3>Fodder Production Records</h3>
+            <p>Manage fodder production data and acreage records.</p>
+            <button onclick="window.location.href='/fodder_production'">View Details</button>
+        </div>
+    </div>
+</body>
+</html>

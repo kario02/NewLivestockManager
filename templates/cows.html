@@ -3,101 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cows</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Animal Management</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 10px;
-            padding: 0;
-            background-image: url('/static/background/background-image2.jpg'); /* Replace with your background image URL */
-            background-size: cover;
-            background-position: center;
+            background: #e8f5e9;
+            background-size: 400% 400%;
+            animation: gradientAnimation 8s ease infinite;
+            margin: 0;
+            padding: 20px;
             color: #fff;
         }
-        h1, h2, h3 {
-            text-align: center;
-            margin-top: 20px;
-            color: whitesmoke;
-        }
-        form {
-            text-align: center;
-            margin: 20px;
-        }
-        button {
-            background-color: #4CAF50; /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px;
-            cursor: pointer;
-            border-radius: 7px;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #45a049; /* Darker green */
-        }
-        canvas {
-            display: block;
-            margin: 0 auto ;
-            width: 700px;
-            height: 700px;
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
+        header {
+            background-color: #2e7d32;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            margin: 0 4.4rem;
+            width: 90%;
+            border-radius: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            display: inline-block;
+            background-color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 2em;
+            color: #333;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .button-group button {
+            padding: 15px 30px;
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .button-group button:hover {
+            transform: scale(1.1);
+            background-color: #45a049;
+        }
+
+        .search-filter {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .search-filter input, .search-filter select {
+            padding: 10px;
+            border: 1px solid #0b0a0a;
+            border-radius: 5px;
+            width: 200px;
+        }
+
+        .search-filter button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .search-filter button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #218838;
+            color: white;
+        }
+        td {
+            color: #0b0a0a;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background: #f1f1f1;
+        }
+        p {
+            color: #0b0a0a;
+        }
     </style>
 </head>
 <body>
-    <h1>Cows</h1>
+    <header>
+        <h1>Animal Management</h1>
+    </header>
+    <div class="container">
+        <!-- Total Animals Card -->
+        <div class="card">
+            <h3>Total Animals: {{ total_animals }}</h3>
+        </div>
 
-    <button onclick="window.location.href='/dashboard'">Home</button>
+        <!-- Buttons for Register Cow and Total Cows -->
+        <div class="button-group">
+            <button onclick="window.location.href='/register_cow'">Add New Animal</button>
+<!--            <button onclick="window.location.href='/total_cows'">View Total Animals</button>-->
+        </div>
 
-    <form method="POST" action="/search_cows">
-        <label for="search_term">Search by name or breed:</label><br>
-        <input type="text" id="search_term" name="search_term"><br>
-        <input type="submit" value="Search">
-    </form>
-    <button onclick="window.location.href='/total_cows'">Total Cows</button>
-    <button onclick="window.location.href='/cow_types'">View Cow Types</button>
+        <!-- Search and Filter Form -->
+        <form method="POST" action="/cows" class="search-filter">
+            <input type="text" name="search_term" placeholder="Search by Animal ID or Species" value="{{ search_term }}">
+            <select name="species">
+                <option value="">Filter by Species</option>
+                {% for species in species_list %}
+                <option value="{{ species }}" {% if species == request.form.species %}selected{% endif %}>{{ species }}</option>
+                {% endfor %}
+            </select>
+            <select name="breed">
+                <option value="">Filter by Breed</option>
+                {% for breed in breed_list %}
+                <option value="{{ breed }}" {% if breed == request.form.breed %}selected{% endif %}>{{ breed }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Search</button>
+        </form>
 
-    <button onclick="window.location.href='/register_cow'">Add New Cow</button>
-    <h2>Total Cows: {{ total_cows }}</h2>
-    <h3>Breed Distribution:</h3>
-    <canvas id="breedChart"></canvas>
-    <script>
-        const breedLabels = {{ breed_labels|tojson|safe }};
-        const breedData = {{ breed_data|tojson|safe }};
-        const ctx = document.getElementById('breedChart').getContext('2d');
-        const breedChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: breedLabels,
-                datasets: [{
-                    data: breedData,
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
-                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
+        <!-- Filtered Animals Table -->
+        {% if filtered_animals %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Animal ID</th>
+                    <th>Species</th>
+                    <th>Breed</th>
+                    <th>Sex</th>
+                    <th>Dam Number</th>
+                    <th>Sire Number</th>
+                    <th>Date of Birth</th>
+                    <th>Weight</th>
+                    <th>Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for animal in filtered_animals %}
+                <tr>
+                    <td>{{ animal[0] }}</td>
+                    <td>{{ animal[1] }}</td>
+                    <td>{{ animal[2] }}</td>
+                    <td>{{ animal[3] }}</td>
+                    <td>{{ animal[4] }}</td>
+                    <td>{{ animal[5] }}</td>
+                    <td>{{ animal[6] }}</td>
+                    <td>{{ animal[7] }}</td>
+                    <td>{{ animal[8] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <!-- Pagination Controls -->
+<!--<div style="text-align: center; margin-top: 20px;">-->
+<!--&lt;!&ndash;    {% if page > 1 %}&ndash;&gt;-->
+<!--        <a href="{{ url_for('cows', page=page-1) }}" style="padding: 8px 16px; background: #2e7d32; color: white; text-decoration: none; border-radius: 5px;">Previous</a>-->
+<!--&lt;!&ndash;    {% endif %}&ndash;&gt;-->
 
+<!--    <span style="margin: 0 10px; font-weight: bold; color: #0b0a0a;">Page {{ page }} of {{ total_pages }}</span>-->
+
+<!--&lt;!&ndash;    {% if page < total_pages %}&ndash;&gt;-->
+<!--        <a href="{{ url_for('cows', page=page+1) }}" style="padding: 8px 16px; background: #2e7d32; color: white; text-decoration: none; border-radius: 5px;">Next</a>-->
+<!--&lt;!&ndash;    {% endif %}&ndash;&gt;-->
+<!--</div>-->
+
+        <p>No results found. Try refining your search or filter criteria.</p>
+        {% endif %}
+    </div>
 </body>
 </html>

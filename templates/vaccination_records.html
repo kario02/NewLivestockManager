@@ -183,16 +183,17 @@
 
     <!-- Vaccination Records Table -->
     <div id="recordsTab" class="content">
-        <h2 style="text-align: center;">Vaccination & Treatment Records</h2>
+        <h2 style="text-align: center;">Vaccination Records</h2>
         <table id="recordsTable">
             <thead>
                 <tr>
+                    <th>Vaccination ID</th>
                     <th>Animal ID</th>
                     <th>Vaccination Type</th>
-                    <th>Treatment Date</th>
-                    <th>Diagnosis</th>
-                    <th>Drug Administered</th>
-                    <th>Dosage</th>
+                    <th>Deworming Type</th>
+                    <th>Vaccination Date</th>
+                    <th>Veterinarian</th>
+                    <th>Notes</th>
                 </tr>
             </thead>
             <tbody>
@@ -201,30 +202,33 @@
                     <td>{{ record[0] }}</td>
                     <td>{{ record[1] }}</td>
                     <td>{{ record[2] }}</td>
-                    <td>{{ record[3] }}</td>
+                    <td>{{ record[3] if record[3] else 'N/A' }}</td>
                     <td>{{ record[4] }}</td>
-                    <td>{{ record[5] }}</td>
+                    <td>{{ record[5] if record[5] else 'N/A' }}</td>
+                    <td>{{ record[6] if record[6] else 'N/A' }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 
+
     <!-- Add New Vaccination & Treatment Record -->
     <div id="addRecordTab" class="content">
-        <h2>Add Vaccination & Treatment Record</h2>
+        <h2>Add Vaccination Record</h2>
         <div class="form-container">
             <form method="POST" action="/add_vaccination">
                 <input type="text" name="animal_id" placeholder="Animal ID" required>
                 <input type="text" name="vaccination_type" placeholder="Vaccination Type" required>
-                <input type="date" name="treatment_date" required>
-                <input type="text" name="diagnosis" placeholder="Diagnosis">
-                <input type="text" name="drug_administered" placeholder="Drug Administered">
-                <input type="text" name="dosage" placeholder="Dosage">
+                <input type="text" name="deworming_type" placeholder="Deworming Type (Optional)">
+                <input type="date" name="vaccination_date" required>
+                <input type="text" name="veterinarian" placeholder="Veterinarian (Optional)">
+                <textarea name="notes" placeholder="Notes (Optional)" rows="3"></textarea>
                 <button type="submit">Add Record</button>
             </form>
         </div>
     </div>
+
 
     <script>
         // Tab functionality

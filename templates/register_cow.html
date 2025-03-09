@@ -7,69 +7,264 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background: #e8f5e9;
             margin: 0;
-            padding: 0;
-            background-image: url('/static/background/background-image6.jpg'); /* Path to your background image */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            color: green;
-        }
-        form {
-            text-align: center;
-            margin-top: 150px;
-            background-color: rgba(0, 0, 0, 0.7); /* Optional background for form */
             padding: 20px;
-            border-radius: 30px;
-            display: inline-block;
+            color: #333;
         }
+
+        header {
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 1.8em;
+            margin: 0 auto 20px;
+            width: 90%;
+            border-radius: 10px;
+        }
+
+        /* Tabs Styling */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background-color: #1f9733;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+            color: white;
+        }
+
+        .tab:hover {
+            background: #27b53e;
+        }
+
+        .tab.active {
+            background: #2e7d32;
+        }
+
+        /* Content Sections */
+        .content {
+            display: none;
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Styling */
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
         input, select {
-            margin: 10px;
             padding: 10px;
-            width: 700px;
+            width: 90%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
+
         button {
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color: #049716;
             color: white;
             border: none;
             cursor: pointer;
             border-radius: 5px;
+            margin-top: 2em;
+            justify-content: center;
+            margin-bottom: 2em;
         }
         button:hover {
             background-color: darkgreen;
         }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #2e7d32;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        tr:hover {
+            background: #e0e0e0;
+        }
+        td{
+            color: #0b0a0a;
+        }
+
     </style>
 </head>
 <body>
-    <h1 style="text-align:center;">Register a New Cow</h1>
 
-    <button onclick="window.location.href='/dashboard'">Home</button>
+<header>Register Animal</header>
 
-    <div style="text-align:center;">
+ <button onclick="window.location.href='/dashboard'">Home</button>
+    <button onclick="window.location.href='/cows'">Animal Management</button>
+
+<!-- Tabs -->
+<div class="tabs">
+    <div class="tab" onclick="showTab('formTab', this)">Register Animal</div>
+    <div class="tab" onclick="showTab('tableTab', this)">View Registered Animals</div>
+</div>
+
+<!-- Register Cow Form -->
+<div id="formTab" class="content">
+    <h2>Register a New Cow</h2>
+    <div class="form-container">
         <form action="/register_cow" method="POST">
-            <label for="name">Name</label><br>
-            <input type="text" id="name" name="name" required><br>
+            <label for="AnimalId">Animal ID</label>
+            <input type="text" id="AnimalId" name="AnimalId" required>
 
-            <label for="breed">Breed</label><br>
-            <input type="text" id="breed" name="breed" required><br>
+            <label for="species">Species</label>
+            <select id="species" name="species" required>
+                <option value="Cattle">Cattle</option>
+                <option value="Camel">Camel</option>
+                <option value="Goat">Goat</option>
+            </select>
 
-            <label for="age">Age (in years)</label><br>
-            <input type="number" id="age" name="age" required><br>
+            <label for="breed">Breed</label>
+            <input type="text" id="breed" name="breed" required>
 
-            <label for="weight">Weight (in kg)</label><br>
-            <input type="number" id="weight" name="weight" required step="0.1"><br>
+            <label for="sex">Sex</label>
+            <select id="sex" name="sex" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
 
-            <label for="status">Status</label><br>
-            <select id="status" name="status" required>
-                <option value="Milking">Milking</option>
-                <option value="Pregnant">Pregnant</option>
-                <option value="Dry">Dry</option>
-                <option value="Weaner">Weaner</option>
-            </select><br>
+            <label for="dam_number">Dam Number</label>
+            <input type="text" id="dam_number" name="dam_number">
+
+            <label for="sire_number">Sire Number</label>
+            <input type="text" id="sire_number" name="sire_number">
+
+            <label for="date_of_birth">Date of Birth</label>
+            <input type="date" id="date_of_birth" name="date_of_birth" required>
+
+            <label for="date_acquired">Date Acquired</label>
+            <input type="date" id="date_acquired" name="date_acquired">
+
+
+            <label for="birth_weight">Weight (in Kgs)</label>
+            <input type="text" id="birth_weight" name="birth_weight" placeholder="Enter Birth Weight">
+
+            <label for="color">Color</label>
+            <input type="text" id="color" name="color" required>
 
             <button type="submit">Register Cow</button>
         </form>
     </div>
+</div>
+
+<!-- Registered Cows Table -->
+<div id="tableTab" class="content">
+    <h2 style="text-align: center;">Registered Cows</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Animal ID</th>
+                <th>Species</th>
+                <th>Breed</th>
+                <th>Sex</th>
+                <th>Dam Number</th>
+                <th>Sire Number</th>
+                <th>Date of Birth</th>
+                <th>Date Acquired</th>
+                <th>Weight</th>
+                <th>Color</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% if cow_data %}
+                {% for cow in cow_data %}
+                <tr>
+                    <td>{{ cow.AnimalID }}</td>
+                    <td>{{ cow.Species }}</td>
+                    <td>{{ cow.Breed }}</td>
+                    <td>{{ cow.Sex }}</td>
+                    <td>{{ cow.DamNumber }}</td>
+                    <td>{{ cow.SireNumber }}</td>
+                    <td>{{ cow.DateOfBirth }}</td>
+                    <td>{{ cow.DateAcquired }}</td>  <!-- Date Acquired -->
+                    <td>{{ cow.BirthWeight }}</td>
+                    <td>{{ cow.Color }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="10" style="text-align: center;">No cows registered yet</td>
+                </tr>
+            {% endif %}
+        </tbody>
+
+
+    </table>
+</div>
+
+<script>
+    // Function to switch tabs
+    function showTab(tabId, element) {
+        // Hide all content sections
+        document.querySelectorAll('.content').forEach(tab => tab.style.display = 'none');
+
+        // Show the selected tab
+        document.getElementById(tabId).style.display = 'block';
+
+        // Remove 'active' class from all tabs
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+
+        // Add 'active' class to the clicked tab
+        if (element) {
+            element.classList.add('active');
+        }
+    }
+
+    // Ensure no tab is active on page load
+    document.getElementById('tableTab').style.display = 'block';
+    document.querySelector('.tab').classList.add('active');
+
+</script>
+
 </body>
 </html>

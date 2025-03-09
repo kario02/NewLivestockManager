@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dipping Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e8f5e9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        header {
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin: 0 auto;
+            width: 90%;
+            border-radius: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 20px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background-color: #049716;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-button:hover {
+            background-color: #207e0b;
+        }
+
+        .tab-content {
+            display: none;
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .active-tab {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #207e0b;
+            color: white;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .form-container input,
+        .form-container textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            padding: 10px;
+            background-color: #049716;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #207e0b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dipping Records</h1>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-button" onclick="openTab('addRecord')">Add Dipping Record</button>
+        <button class="tab-button" onclick="openTab('viewRecords')">View Dipping Records</button>
+    </div>
+
+    <div id="addRecord" class="tab-content active-tab">
+        <h2>Add Dipping Record</h2>
+        <form method="POST" action="/add_dipping_record" class="form-container">
+            <input type="date" name="date" required>
+            <input type="number" name="number_of_animals" required placeholder="Number of Animals">
+            <input type="number" name="water_added" placeholder="Water Added (L)">
+            <input type="text" name="acaricide_type" placeholder="Acaricide Type">
+            <input type="number" name="acaricide_amount" placeholder="Acaricide Amount (ml)">
+            <textarea name="lab_test" placeholder="Lab Test Notes (Optional)"></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div id="viewRecords" class="tab-content">
+        <h2>Dipping Records</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Number of Animals</th>
+                    <th>Water Added (L)</th>
+                    <th>Acaricide Type</th>
+                    <th>Acaricide Amount (ml)</th>
+                    <th>Lab Test Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in dipping_records %}
+                <tr>
+                    <td>{{ record[0] }}</td>
+                    <td>{{ record[1] }}</td>
+                    <td>{{ record[2] if record[2] else 'N/A' }}</td>
+                    <td>{{ record[3] if record[3] else 'N/A' }}</td>
+                    <td>{{ record[4] if record[4] else 'N/A' }}</td>
+                    <td>{{ record[5] if record[5] else 'N/A' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
+            document.getElementById(tabId).classList.add('active-tab');
+        }
+    </script>
+</body>
+</html>

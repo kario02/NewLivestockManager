@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Management</title>
+    <style>
+        body {
+             font-family: Arial, sans-serif;
+            background: #e8f5e9;
+            background-size: 400% 400%;
+            animation: gradientAnimation 8s ease infinite;
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            background-color: #2e7d32;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            margin: 0 4.4rem;
+            width: 90%;
+            border-radius: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .card button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            background: #218838;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .card button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Health Management</h1>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h3>Vaccination & Treatment Records</h3>
+            <button onclick="window.location.href='/vaccination_records'">View Records</button>
+        </div>
+        <div class="card">
+            <h3>Dipping Records</h3>
+            <button onclick="window.location.href='/dipping_records'">View Records</button>
+        </div>
+        <div class="card">
+            <h3>Health Response Monitoring</h3>
+            <button onclick="window.location.href='/health_response'">Monitor Health</button>
+        </div>
+        <div class="card">
+            <h3>Weight Management</h3>
+            <button onclick="window.location.href='/weight_records'">Manage Records</button>
+        </div>
+    </div>
+</body>
+</html>

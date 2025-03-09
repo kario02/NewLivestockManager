@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports and Analytics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e8f5e9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        header {
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 1.8em;
+            margin: 0 auto 20px;
+            width: 90%;
+            border-radius: 10px;
+        }
+
+        .export-container {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .export-button {
+            padding: 10px 20px;
+            background-color: #218838;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 5px;
+        }
+
+        .export-button:hover {
+            background: #1a6b30;
+        }
+
+        .table-container {
+            width: 90%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #2e7d32;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        tr:hover {
+            background: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Reports and Analytics</h1>
+    </header>
+
+    <!-- Table Selection Dropdown -->
+    <div class="export-container">
+        <h2>Select Table to View and Download Report:</h2>
+        <select id="tableDropdown" class="export-button" onchange="fetchTableData()">
+            <option value="">Select a table</option>
+            {% for table in tables %}
+                {% if table != "user" and table != "notifications_settings" %}
+                    <option value="{{ table }}">{{ table }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Table Display -->
+    <div class="table-container">
+        <h2 id="tableTitle" style="text-align: center;">Selected Table Report</h2>
+        <table id="dynamicTable">
+            <thead id="tableHead">
+                <tr></tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- Export Buttons -->
+    <div class="export-container">
+        <button class="export-button" onclick="exportToPDF()">Export as PDF</button>
+        <button class="export-button" onclick="exportToExcel()">Export as Excel</button>
+    </div>
+
+    <script>
+        function fetchTableData() {
+            let tableName = document.getElementById("tableDropdown").value;
+            if (!tableName) return;
+
+            fetch('/fetch_table_data', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `table_name=${tableName}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                let tableHead = document.getElementById("tableHead").querySelector("tr");
+                let tableBody = document.getElementById("tableBody");
+
+                tableHead.innerHTML = "";
+                tableBody.innerHTML = "";
+
+                // Add column headers
+                data.columns.forEach(col => {
+                    let th = document.createElement("th");
+                    th.textContent = col;
+                    tableHead.appendChild(th);
+                });
+
+                // Add table rows
+                data.data.forEach(row => {
+                    let tr = document.createElement("tr");
+                    row.forEach(cell => {
+                        let td = document.createElement("td");
+                        td.textContent = cell;
+                        tr.appendChild(td);
+                    });
+                    tableBody.appendChild(tr);
+                });
+
+                document.getElementById("tableTitle").textContent = tableName + " Report";
+            })
+            .catch(error => console.error("Error fetching table data:", error));
+        }
+
+        function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            let tableName = document.getElementById("tableDropdown").value;
+            if (!tableName) {
+                alert("Please select a table first!");
+                return;
+            }
+
+            doc.text(`Report - ${tableName}`, 20, 20);
+
+            const table = document.getElementById("dynamicTable");
+            const rows = [];
+            for (let i = 0; i < table.rows.length; i++) {
+                const row = [];
+                for (let j = 0; j < table.rows[i].cells.length; j++) {
+                    row.push(table.rows[i].cells[j].innerText);
+                }
+                rows.push(row);
+            }
+
+            doc.autoTable({ head: [rows[0]], body: rows.slice(1) });
+            doc.save(`${tableName}_Report.pdf`);
+        }
+
+        function exportToExcel() {
+            let tableName = document.getElementById("tableDropdown").value;
+            if (!tableName) {
+                alert("Please select a table first!");
+                return;
+            }
+
+            const table = document.getElementById("dynamicTable");
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.table_to_sheet(table);
+
+            XLSX.utils.book_append_sheet(wb, ws, tableName);
+            XLSX.writeFile(wb, `${tableName}_Report.xlsx`);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Records</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background: #e8f5e9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+         header {
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 1.8em;
+            margin: 0 auto 20px;
+            width: 90%;
+            border-radius: 10px;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tabs {
+            display: flex;
+            margin: 2rem 4rem;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            background: #ddd;
+            transition: 0.3s;
+        }
+
+        .tab.active {
+            background: #2e7d32;
+            color: white;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin: 2rem 4rem;
+            margin-bottom: 5rem;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #2e7d32;
+            color: white;
+        }
+
+        form {
+            margin: 2rem 4rem;
+        }
+        label {
+            display: block;
+        }
+
+        input, select {
+            width: 99.5%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-family: inherit;
+            font-size: inherit;
+            color: inherit;
+        }
+         input {
+             width: 98%;
+         }
+
+        button {
+            padding: 10px;
+            background-color: #218838;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: inherit;
+        }
+
+        button:hover {
+            background: #1a6b30;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Weight & Growth Tracking</h1>
+    <div class="container">
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('add_record')">Add Record</div>
+        <div class="tab" onclick="showTab('view_growth')">View Growth</div>
+    </div>
+
+    <!-- Tab: Add Record -->
+    <div id="add_record" class="tab-content active">
+        <h2>Add Weight Record</h2>
+        <form method="POST">
+            <label>Animal ID:</label>
+            <select name="animal_id" required>
+                <option value="" disabled selected>Select Animal ID</option>
+                {% for animal in animals %}
+                    <option value="{{ animal.AnimalID }}">{{ animal.AnimalID }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Reason:</label>
+            <input type="text" name="reason" placeholder="Enter reason for weight record" required>
+
+            <label>Date:</label>
+            <input type="date" name="weight_date" required>
+
+            <label>Weight (kg):</label>
+            <input type="number" name="weight" step="0.1" placeholder="Enter weight in kg" required>
+
+            <label>Chest Girth (cm):</label>
+            <input type="number" name="chest_girth" step="0.1" placeholder="Enter chest girth in cm">
+
+            <label>Scrotal Length (cm):</label>
+            <input type="number" name="scrotal_length" step="0.1" placeholder="Enter scrotal length in cm">
+
+            <label>Scrotal Width (cm):</label>
+            <input type="number" name="scrotal_width" step="0.1" placeholder="Enter scrotal width in cm">
+
+            <label>Scrotal Circumference (cm):</label>
+            <input type="number" name="scrotal_circumference" step="0.1" placeholder="Enter scrotal circumference in cm">
+
+            <button type="submit">Save Record</button>
+        </form>
+    </div>
+
+    <!-- Tab: View Growth -->
+    <div id="view_growth" class="tab-content">
+        <h2>Search Animal Growth</h2>
+        <form>
+            <label>Animal ID:</label>
+            <input type="text" name="animal_id" required>
+            <button type="submit">Search</button>
+        </form>
+        <table id="growthTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Weight (kg)</th>
+                    <th>Chest Girth (cm)</th>
+                    <th>Scrotal Length (cm)</th>
+                    <th>Scrotal Width (cm)</th>
+                    <th>Scrotal Circumference (cm)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <canvas id="growthChart"></canvas>
+    </div>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector("#view_growth form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                const animalId = document.querySelector("input[name='animal_id']").value.trim();
+                if (!animalId) {
+                    alert("Please enter an Animal ID");
+                    return;
+                }
+
+                fetch(`/get_growth_data?animal_id=${encodeURIComponent(animalId)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length === 0) {
+                            alert("No growth records found for this Animal ID.");
+                            return;
+                        }
+                        updateGrowthTable(data);
+                        updateGrowthChart(data);
+                    })
+                    .catch(error => console.error("Error fetching growth data:", error));
+            });
+        });
+
+
+        function updateGrowthTable(data) {
+            const tableBody = document.querySelector("#growthTable tbody");
+            tableBody.innerHTML = "";
+            data.forEach(row => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${row.WeightDate}</td>
+                    <td>${row.Weight}</td>
+                    <td>${row.ChestGirth || "-"}</td>
+                    <td>${row.ScrotalLength || "-"}</td>
+                    <td>${row.ScrotalWidth || "-"}</td>
+                    <td>${row.ScrotalCircumference || "-"}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function updateGrowthChart(data) {
+            const ctx = document.getElementById("growthChart").getContext("2d");
+
+            // Extract data
+            const labels = data.map(row => row.WeightDate);
+            const weightData = data.map(row => row.Weight);
+            const chestGirthData = data.map(row => row.ChestGirth || null);
+            const scrotalLengthData = data.map(row => row.ScrotalLength || null);
+            const scrotalWidthData = data.map(row => row.ScrotalWidth || null);
+            const scrotalCircumferenceData = data.map(row => row.ScrotalCircumference || null);
+
+            // Destroy previous chart instance if exists
+            if (window.growthChartInstance) {
+                window.growthChartInstance.destroy();
+            }
+
+            // Create new chart
+            window.growthChartInstance = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: "Weight (kg)",
+                            data: weightData,
+                            borderColor: "#2e7d32",
+                            backgroundColor: "rgba(46, 125, 50, 0.2)",
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: "Chest Girth (cm)",
+                            data: chestGirthData,
+                            borderColor: "#ff9800",
+                            backgroundColor: "rgba(255, 152, 0, 0.2)",
+                            fill: false,
+                            tension: 0.3
+                        },
+                        {
+                            label: "Scrotal Length (cm)",
+                            data: scrotalLengthData,
+                            borderColor: "#1976d2",
+                            backgroundColor: "rgba(25, 118, 210, 0.2)",
+                            fill: false,
+                            tension: 0.3
+                        },
+                        {
+                            label: "Scrotal Width (cm)",
+                            data: scrotalWidthData,
+                            borderColor: "#d32f2f",
+                            backgroundColor: "rgba(211, 47, 47, 0.2)",
+                            fill: false,
+                            tension: 0.3
+                        },
+                        {
+                            label: "Scrotal Circumference (cm)",
+                            data: scrotalCircumferenceData,
+                            borderColor: "#7b1fa2",
+                            backgroundColor: "rgba(123, 31, 162, 0.2)",
+                            fill: false,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: "top"
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: "Date"
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: "Measurement Values"
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

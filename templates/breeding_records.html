@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breeding Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e8f5e9;
+            background-size: 400% 400%;
+            animation: gradientAnimation 8s ease infinite;
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+             background-color: #2e7d32;
+             color: #fff;
+             text-align: center;
+             padding: 20px 0;
+             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+             margin: 0 4.4rem;
+             width: 90%;
+             border-radius: 10px;
+        }
+
+        header h1 {
+             margin: 0;
+             font-size: 2.5em;
+             letter-spacing: 2px;
+            text-align: center;
+
+        }
+
+         table {
+             width: 90%;
+             margin: 20px auto;
+             border-collapse: collapse;
+             background-color: #fff;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+         }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .back-button {
+            margin: 20px auto;
+            display: block;
+            width: 200px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<header>
+
+    <h1>Breeding Records</h1>
+</header>
+    <table>
+        <thead>
+            <tr>
+                <th>Herd ID</th>
+<!--                <th>Animal ID</th>-->
+                <th>Sire ID</th>
+                <th>Dam ID</th>
+                <th>Date Joined</th>
+                <th>Date Exited</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in breeding_records %}
+            <tr>
+                <td>{{ record[0] }}</td>
+<!--                <td>{{ record[1] }}</td>-->
+                <td>{{ record[2] }}</td>
+                <td>{{ record[3] }}</td>
+                <td>{{ record[4] }}</td>
+                <td>{{ record[5] }}</td>
+                <td>{{ record[6] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/breeding_management" class="back-button">Back to Breeding Management</a>
+</body>
+</html>

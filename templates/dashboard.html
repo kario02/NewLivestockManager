@@ -3,193 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Livestock Management Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            transition: background-image 2s ease-in-out; /* Smooth transition effect */
-            /*background-color: grey;*/
-
             margin: 0;
             padding: 0;
+            background: #e8f5e9;
+            background-size: 400% 400%;
+            animation: gradientAnimation 8s ease infinite;
         }
 
-        .background-1 {
-            background-image: url('/static/background/background-image.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        header {
+            background-color: #2e7d32;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            margin: 0 4.4rem;
+            width: 90%;
+            border-radius: 10px;
+            margin-bottom: 2em;
         }
 
-        .background-2 {
-            background-image: url('/static/background/background-image1.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-        .background-3 {
-            background-image: url('/static/background/background-image2.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
         }
 
         nav {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
             background-color: #333;
+            color: white;
+            overflow-y: auto;
             padding: 10px;
         }
+
+        nav h2 {
+            text-align: center;
+            margin: 20px 0;
+            color: #fff;
+            font-size: 1.5em;
+        }
+
         nav ul {
-            list-style-type: none;
+            list-style: none;
             padding: 0;
         }
-        nav ul li {
-            display: inline;
-            margin-right: 10px;
-        }
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-        }
-        nav ul li a:hover {
-            text-decoration: underline;
-        }
-        .container {
-            padding: 20px;
-            display: flex;
-            flex-flow: row wrap;
-            justify-content: space-between;
-            gap: 20px;
 
+        nav ul li {
+            margin: 10px 0;
         }
-        h1 {
+
+        nav ul li a {
+            text-decoration: none;
             color: white;
+            font-size: 1.1em;
             display: block;
-        }
-        .section {
-            background-color: lightcyan;
-            color: black;
-            padding: 20px;
-            margin: 20px 0;
-            width: 400px;
-            border-radius: 10px;
-        }
-        .section h3 {
-            margin-top: 0;
-        }
-        .section button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
+            padding: 10px;
             border-radius: 5px;
-            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        .section button:hover {
-            background-color: #45a049;
+
+        nav ul li a:hover {
+            background-color: #1edd09;
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .schedule_card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            width: 540px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            margin: 0;
+            color: #444;
+        }
+
+        .card p {
+            font-size: 1.2em;
+            margin: 10px 0 0;
+            color: #666;
+        }
+
+        .chart-container {
+            margin: 40px auto;
+            width: 90%;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                width: 100px;
+            }
+            .content {
+                margin-left: 110px;
+            }
+            .card {
+                width: 200px;
+            }
         }
     </style>
 </head>
-<body class="background-1">
+<body>
     <nav>
+        <h2>Livestock System</h2>
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/farm_calendar">Farm Calendar</a></li>
-            <li><a href="/cows">Cattle</a></li>
-            <li><a href="/calvings">Calvings</a></li>
-            <li><a href="/weaners">Weaners</a></li>
-            <li><a href="/financial_manager">Financial Manager</a></li>
-            <li><a href="/milk_records">Milk Records</a></li>
-            <li><a href="/reports">Reports</a></li>
-            <li><a href="/inventory">Inventory</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/cows">Animal Management</a></li>
+            <li><a href="/breeding_management">Breeding</a></li>
+            <li><a href="/health_management">Health</a></li>
+            <li><a href="/nutrition_feeding_management">Nutrition</a></li>
+            <li><a href="/milk_production">Milk Production</a></li>
+            <li><a href="/sales">Sales</a></li>
+            <li><a href="/procurement">Procurement</a></li>
+            <li><a href="/reports_analytics">Reports</a></li>
+            <li><a href="/user_management">User Management</a></li>
             <li><a href="/help">Help</a></li>
-            <li><a href="/logout">Log Out</a></li>
+            {% if session['user_role'] == 'admin' %}
+            <li><a href="/admin" style="background-color: #1edd09;">Admin Page</a></li>
+            {% endif %}
+            <li><a href="/logout">Logout</a></li>
         </ul>
     </nav>
-    <h1>Welcome to the Dashboard</h1>
 
-    {% if session['user_role'] == 'scientist' %}
-        <p>View <a href="/cows">Cows</a></p>
-        <p>View <a href="/calvings">Calves</a></p>
-        <p>View <a href="/health_records">Health Records</a></p>
-    {% elif session['user_role'] == 'milk_person' %}
-        <p>Manage <a href="/milk_records">Milk Records</a></p>
-    {% elif session['user_role'] == 'admin' %}
-        <p>Admin Options: <a href="/admin">Admin Page</a></p>
-    {% endif %}
+    <div class="content">
+        <header>
+            <h1 class="dashboard-header">Welcome To Livestock Management</h1>
+        </header>
 
-    <div class="container">
-
-
-        <div class="section">
-            <h3>Cows</h3>
-            <button onclick="window.location.href='/cows'">View Details</button>
+         <!-- Summary Cards -->
+        <div class="cards-container">
+            <div class="card">
+                <h3>Total Animals</h3>
+                <p>{{ total_cows }}</p>
+                <button onclick="window.location.href='/total_cows'">View Details</button>
+            </div>
+            <div class="card">
+                <h3>Milk Production (Today)</h3>
+                <p>{{ milk_data }}</p>
+            </div>
+            <div class="card">
+                <h3>Breeding Events</h3>
+                <p>{{ total_breeding_records }}</p>
+            </div>
+            <div class="card">
+                <h3>Health Alerts</h3>
+                <p>{{ total_health_records }}</p>
+            </div>
+            <div class="card schedule_card">
+                <h3>Scheduled Activities</h3>
+                <p>Breeding: {{ total_breeding_schedules }}</p>
+                <p>Routine Activities: {{ recent_activities }}</p>
+                <button onclick="window.location.href='/breeding_schedule'">View Details</button>
+            </div>
         </div>
 
-
-
-        <div class="section">
-            <h3>Calvings</h3>
-            <button onclick="window.location.href='/calvings'">View Details</button>
+        <!-- Graphs/Charts -->
+        <div class="chart-container">
+            <canvas id="milkProductionChart"></canvas>
         </div>
-
-
-
-        <div class="section">
-            <h3>Weaners</h3>
-            <button onclick="window.location.href='/weaners'">View Details</button>
-        </div>
-
-
-
-        <div class="section">
-            <h3>Milk Records</h3>
-            <button onclick="window.location.href='/milk_records'">View Details</button>
-        </div>
-
-
-
-        <div class="section">
-            <h3>Reports</h3>
-            <button onclick="window.location.href='/animal_report'">View Details</button>
-        </div>
-
-
-        <div class="section">
-            <h3>Inventory</h3>
-            <button onclick="window.location.href='/inventory'">View Details</button>
-        </div>
-
     </div>
-<script>
-        // JavaScript function to alternate background images
-        let currentBackground = 1; // Start with background-1
 
-        function changeBackground() {
-            // Get the body element
-            const body = document.body;
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Fetch Milk Production Data from Backend
+        const milkProductionData = {{ milk_production_data | tojson }};
 
-            // Toggle between backgrounds by switching classes
-            if (currentBackground === 1) {
-                body.classList.remove('background-1');
-                body.classList.add('background-2');
-                currentBackground = 2;
-            } else if (currentBackground === 2) {
-                body.classList.remove('background-2');
-                body.classList.add('background-3');
-                currentBackground = 3;
-            } else {
-                body.classList.remove('background-3');
-                body.classList.add('background-1');
-                currentBackground = 1;
-            }
-
-        }
-
-        // Change background every 5 seconds (5000 ms)
-        setInterval(changeBackground, 5000);
-</script>
+        const ctx = document.getElementById('milkProductionChart').getContext('2d');
+        const milkProductionChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: milkProductionData.labels, // Dates
+                datasets: [
+                    {
+                        label: 'Milk Production (Liters)',
+                        data: milkProductionData.values, // Production Values
+                        backgroundColor: 'rgba(76, 175, 80, 0.6)',
+                        borderColor: '#4CAF50',
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Milk Production (L)',
+                        },
+                    },
+                },
+            },
+        });
+    </script>
 </body>
 </html>

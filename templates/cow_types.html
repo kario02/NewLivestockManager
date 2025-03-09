@@ -40,6 +40,31 @@
         button:hover {
             background-color: #45a049;
         }
+
+        /* Pagination Styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #218838;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .pagination button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -47,11 +72,57 @@
 
     <button onclick="window.location.href='/dashboard'">Home</button>
 
-    <ul>
+    <!-- Cow Types List -->
+    <ul id="cowList">
         {% for breed, count in cow_types %}
-        <li>{{ breed }}: {{ count }} cows</li>
+        <li class="cow-item">{{ breed }}: {{ count }} cows</li>
         {% endfor %}
     </ul>
+
+    <!-- Pagination Buttons -->
+    <div class="pagination">
+        <button id="prevBtn" onclick="prevPage()">Previous</button>
+        <button id="nextBtn" onclick="nextPage()">Next</button>
+    </div>
+
     <button onclick="window.location.href='/cows'">Go Back to Cows</button>
+
+    <script>
+        // JavaScript Pagination
+        let currentPage = 1;
+        const itemsPerPage = 5; // Number of items per page
+        const cowItems = document.querySelectorAll(".cow-item");
+        const totalItems = cowItems.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+        function showPage(page) {
+            let start = (page - 1) * itemsPerPage;
+            let end = start + itemsPerPage;
+
+            cowItems.forEach((item, index) => {
+                item.style.display = index >= start && index < end ? "block" : "none";
+            });
+
+            document.getElementById("prevBtn").disabled = page === 1;
+            document.getElementById("nextBtn").disabled = page === totalPages;
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        }
+
+        // Show first page by default
+        showPage(currentPage);
+    </script>
 </body>
 </html>

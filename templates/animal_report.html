@@ -6,202 +6,230 @@
     <title>Animal Reports</title>
     <style>
         /* General Reset */
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f9f9f9;
-        color: #333;
-    }
-
-    /* Header Styling */
-    h1 {
-        text-align: center;
-        margin: 20px 0;
-        color: #444;
-        font-size: 2.5em;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-    }
-
-    /* Form Styling */
-    .form-container {
-        display: flex;
-        justify-content: center;
-        margin: 20px 0;
-    }
-
-    form {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        background-color: #fff;
-        padding: 15px 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    label {
-        font-weight: bold;
-        color: #555;
-    }
-
-    select {
-        padding: 5px 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 1em;
-    }
-
-    button[type="submit"] {
-        padding: 8px 15px;
-        background-color: #218838;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1em;
-    }
-
-    button[type="submit"]:hover {
-        background-color: #0056b3;
-    }
-
-    /* Table Styling */
-    table {
-        width: 90%;
-        margin: 20px auto;
-        border-collapse: collapse;
-        background-color: #fff;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    th, td {
-        border: 1px solid #ddd;
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #218838;
-        color: #fff;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    tr:hover {
-        background-color: #f1f1f1;
-    }
-
-    /* Animal Details Section */
-    .animal-data-container {
-        margin: 20px auto;
-        width: 90%;
-        background-color: #fff;
-        padding: 15px 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .animal-data-container h2 {
-        color: #444;
-        font-size: 1.8em;
-        margin-bottom: 10px;
-        text-align: center;
-    }
-
-    .animal-data-container table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    /* Download Button */
-    .download-button {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 20px;
-        background-color: #28a745;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        font-size: 1em;
-        cursor: pointer;
-    }
-
-    .download-button:hover {
-        background-color: #218838;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        table, .animal-data-container table {
-            font-size: 0.9em;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(120deg, #84fab0, #8fd3f4);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s ease infinite;
+            color: #333;
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
+        /* Header Styling */
         h1 {
-            font-size: 2em;
+            text-align: center;
+            margin: 20px 0;
+            color: #fff;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
         }
-    }
+
+        /* Form Styling */
+        .form-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        select, input {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+         select:focus, input:focus {
+             transform: scale(1.05);
+             box-shadow: 0 0 10px #218838;
+             outline: none;
+         }
+
+        button[type="submit"], .download-button {
+            padding: 10px 120px;
+            background-color: #218838;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button[type="submit"]:hover, .download-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+
+        .download-container {
+            position: relative;
+        }
+
+        .download-options {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .download-options button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #fff;
+            color: #333;
+            cursor: pointer;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-options button:hover {
+            background-color: #f2f2f2;
+        }
+
+        /* Table Styling */
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            color: #333;
+        }
+
+        th {
+            background-color: #218838;
+            color: #fff;
+
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Animal Details Section */
+        .animal-data-container {
+            margin: 20px auto;
+            width: 90%;
+            background-color: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .animal-data-container h2 {
+            color: #444;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            table, .animal-data-container table {
+                font-size: 0.9em;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
     </style>
 </head>
 <body>
 
     <h1>Animal Reports</h1>
 
-    <!-- Form to select animal -->
+    <!-- Filter Form -->
     <div class="form-container">
         <form method="POST" action="/animal_report">
             <label for="species">Species:</label>
             <select id="species" name="species">
-                <option value="">Select Species</option>
-                <option value="Cattle">Cattle</option>
-                <option value="Camel">Camel</option>
+                <option value="">-- All Species --</option>
+                {% for species in species_list %}
+                <option value="{{ species }}">{{ species }}</option>
+                {% endfor %}
             </select>
 
             <label for="breed">Breed:</label>
             <select id="breed" name="breed">
-                <option value="">Select Breed</option>
-                <option value="Boran">Boran</option>
-                <option value="Freshian">Freshian</option>
-                <option value="Ashire">Ashire</option>
+                <option value="">-- All Breeds --</option>
+                {% for breed in breed_list %}
+                <option value="{{ breed }}">{{ breed }}</option>
+                {% endfor %}
             </select>
 
             <label for="herd">Herd:</label>
             <select id="herd" name="herd">
-                <option value="">Select Herd</option>
-                <option value="Herd One">Herd One</option>
-                <option value="Herd Two">Herd Two</option>
+                <option value="">-- All Herds --</option>
+                {% for herd in herd_list %}
+                <option value="{{ herd }}">{{ herd }}</option>
+                {% endfor %}
             </select>
 
             <label for="animal_id">Search by Animal ID:</label>
             <input type="text" id="animal_id" name="animal_id" placeholder="Enter Animal ID">
 
             <button type="submit">Filter Reports</button>
+
+            {% if animal_data %}
+            <div class="download-container">
+                <button class="download-button" onclick="downloadReport(format)">Download Report</button>
+                <div class="download-options">
+                    <button onclick="downloadReport('excel')">Download as Excel</button>
+                    <button onclick="downloadReport('pdf')">Download as PDF</button>
+                </div>
+            </div>
+            {% endif %}
         </form>
     </div>
 
-    <!-- Display selected animal's data -->
+    <!-- Animal Data -->
     {% if animal_data %}
     <div class="animal-data-container">
         <h2>Animal Details</h2>
-        <!--<table>
-            <tr><th>ID</th><td>{{ animal_data[0] }}</td></tr>
-            <tr><th>Species</th><td>{{ animal_data[1] }}</td></tr>
-            <tr><th>Breed</th><td>{{ animal_data[2] }}</td></tr>
-            <tr><th>Age</th><td>{{ animal_data[3] }}</td></tr>
-            <tr><th>Weight</th><td>{{ animal_data[4] }}</td></tr>
-            <tr><th>Status</th><td>{{ animal_data[5] }}</td></tr>
-            <tr><th>Dam Number</th><td>{{ animal_data[6] }}</td></tr>
-            <tr><th>Sire Number</th><td>{{ animal_data[7] }}</td></tr>
-            <tr><th>Date of Birth</th><td>{{ animal_data[8] }}</td></tr>
-            <tr><th>Date Acquired</th><td>{{ animal_data[9] }}</td></tr>
-            <tr><th>Color</th><td>{{ animal_data[10] }}</td></tr>
-            <tr><th>Sex</th><td>{{ animal_data[11] }}</td></tr>
-        </table>-->
         <table>
             <thead>
                 <tr>
@@ -217,82 +245,77 @@
                     <th>Date Acquired</th>
                     <th>Color</th>
                     <th>Sex</th>
-
                 </tr>
             </thead>
             <tbody>
-
+                {% for animal in animal_data %}
                 <tr>
-                    <td>{{ animal_data[0] }}</td>
-                    <td>{{ animal_data[1] }}</td>
-                    <td>{{ animal_data[2] }}</td>
-                    <td>{{ animal_data[3] }}</td>
-                    <td>{{ animal_data[4] }}</td>
-                    <td>{{ animal_data[5] }}</td>
-                    <td>{{ animal_data[6] }}</td>
-                    <td>{{ animal_data[7] }}</td>
-                    <td>{{ animal_data[8] }}</td>
-                    <td>{{ animal_data[9] }}</td>
-                    <td>{{ animal_data[10] }}</td>
-                    <td>{{ animal_data[11] }}</td>
-
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    {% endif %}
-
-    <!-- Display report data in a table format -->
-    <div class="table-container">
-        <h2>Animal Reports</h2>
-        <table id="reportTable">
-            <thead>
-                <tr>
-                    <th>Breed</th>
-                    <th>Age</th>
-                    <th>Sex</th>
-
-                </tr>
-            </thead>
-            <tbody>
-                {% for report in reports %}
-                <tr>
-                    <td>{{ report[0] }}</td>
-                    <td>{{ report[1] }}</td>
-                    <td>{{ report[2] }}</td>
-
+                    <td>{{ animal[0] }}</td>
+                    <td>{{ animal[1] }}</td>
+                    <td>{{ animal[2] }}</td>
+                    <td>{{ animal[3] }}</td>
+                    <td>{{ animal[4] }}</td>
+                    <td>{{ animal[5] }}</td>
+                    <td>{{ animal[6] }}</td>
+                    <td>{{ animal[7] }}</td>
+                    <td>{{ animal[8] }}</td>
+                    <td>{{ animal[9] }}</td>
+                    <td>{{ animal[10] }}</td>
+                    <td>{{ animal[11] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+    {% endif %}
 
-    <!-- Button to download the report -->
-    <button class="download-button" onclick="downloadReport()">Download Report</button>
 
+    <!-- JavaScript for Download -->
     <script>
-        // JavaScript function to download the report as a CSV file
-        function downloadReport() {
-            const table = document.getElementById('reportTable');
-            let csv = [];
-            for (let row of table.rows) {
-                let cols = [];
-                for (let cell of row.cells) {
-                    cols.push(cell.innerText);
-                }
-                csv.push(cols.join(","));
-            }
-            const csvContent = csv.join("\n");
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.setAttribute('hidden', '');
-            a.setAttribute('href', url);
-            a.setAttribute('download', 'animal_report.csv');
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+        /*function toggleDownloadOptions() {
+            const options = document.querySelector('.download-options');
+            options.style.display = options.style.display === 'block' ? 'none' : 'block';
         }
+
+        function downloadReport(format) {
+            if (format === 'excel') {
+                alert('Downloading as Excel...');
+                // Add Excel download functionality
+            } else if (format === 'pdf') {
+                alert('Downloading as PDF...');
+                // Add PDF download functionality
+            }
+        }*/
+    function downloadReport(format) {
+        console.log("Download button clicked with format:", format); // Debugging log
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/download_report';
+
+        // Add format input
+        const formatInput = document.createElement('input');
+        formatInput.type = 'hidden';
+        formatInput.name = 'format';
+        formatInput.value = format;
+        form.appendChild(formatInput);
+
+        // Add filter inputs
+        const filters= ['species', 'breed', 'animal_id'];
+        filters.forEach(filter => {
+            const value = document.getElementById(filter).value;
+            if (value) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = filter;
+                input.value = value;
+                form.appendChild(input);
+        }
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
     </script>
 
 </body>

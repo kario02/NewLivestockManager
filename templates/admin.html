@@ -7,76 +7,265 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            background-image: url('/static/background/background-image12.jpg');
             margin: 0;
             padding: 0;
+            background: #f4f4f4;
         }
-        .container {
+        header {
+            background: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #284a2a;
+            position: fixed;
+            top: 0;
+            left: 0;
+            color: white;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            display: block;
+            padding: 15px;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid #444;
+        }
+        .sidebar a:hover {
+            background: #34495e;
+        }
+        .main-content {
+            margin-left: 250px;
             padding: 20px;
         }
-        h1 {
-            text-align: center;
-            color: white;
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        h2 {
-            color: white;
+        .card h2 {
+            margin: 0;
+            font-size: 1.5em;
         }
-        .section {
-            margin: 20px 0;
+        .card p {
+            margin: 10px 0 0;
+            color: #666;
         }
-        button {
+        .sections-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sections-table th, .sections-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.sections-table th {
+    background: #284a2a;
+    color: white;
+    font-weight: bold;
+}
+
+.sections-table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.sections-table tr:hover {
+    background: #f1f1f1;
+}
+.tab-buttons {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .tab-button {
             padding: 10px 20px;
-            background-color: #4CAF50;
+            cursor: pointer;
+            border: none;
+            background: #284a2a;
+            color: white;
+            margin-right: 5px;
+            border-radius: 5px;
+        }
+        .tab-button:hover {
+            background: #2e8b57;
+        }
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .active-tab {
+            display: block;
+        }
+        #sectionManagement {
+            display: none;
+        }
+        .submit-button{
+            display: flex;
+            justify-content: flex-start;
+            padding: 15px 30px;
+            background-color: #218838;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
-        button:hover {
-            background-color: #45a049;
+        .submit-button:hover {
+            transform: scale(1.1);
+            background-color: #0056b3;
         }
+
     </style>
 </head>
 <body>
-    <div class="container">
+    <header>
         <h1>Admin Dashboard</h1>
-
-        <!-- User Management Section -->
-        <div class="section">
-            <h2>User Management</h2>
-            <button onclick="window.location.href='/register'">Register New User</button>
-            <button onclick="window.location.href='/view_users'">View All Users</button>
-            <button onclick="window.location.href='/edit_user'">Edit User Roles</button>
-            <button onclick="window.location.href='/reset_password'">Reset User Passwords</button>
-        </div>
-
-        <!-- Livestock Management Section -->
-        <div class="section">
-            <h2>Livestock Management</h2>
-            <button onclick="window.location.href='/cows'">View All Cows</button>
-            <button onclick="window.location.href='/register_cow'">Add New Cow</button>
-            <button onclick="window.location.href='/manage_calvings'">Manage Calvings</button>
-            <button onclick="window.location.href='/milk_records'">Manage Milk Records</button>
-        </div>
-
-        <!-- Reports Section -->
-        <div class="section">
-            <h2>Reports and Analytics</h2>
-            <button onclick="window.location.href='/generate_reports'">Generate Reports</button>
-            <button onclick="window.location.href='/view_statistics'">View Statistics</button>
-            <button onclick="window.location.href='/export_data'">Export Data</button>
-        </div>
-
-        <!-- Help Requests Section -->
-        <div class="section">
-            <h2>Help and Support</h2>
-            <button onclick="window.location.href='/view_help_requests'">View Help Requests</button>
-            <button onclick="window.location.href='/send_notifications'">Send Notifications</button>
-        </div>
-
-        <!-- Logout Button -->
-        <button onclick="window.location.href='/logout'">Logout</button>
+    </header>
+    <div class="sidebar">
+        <a href="/admin">Dashboard</a>
+        <a href="/user_management">User Management</a>
+        <a href="/cows">Animal Management</a>
+        <a href="/reports_analytics">Reports</a>
+        <a href="/settings">Settings</a>
+        <a href="#" onclick="showSectionManagement()">Section Management</a>
+        <a href="#" onclick="showAuditTrail()">Audit Trail</a>
+        <a href="/dashboard">Logout</a>
     </div>
+
+    <div class="main-content">
+        <div class="card">
+            <h2>Total Animals</h2>
+            <p>{{ total_animals }}</p>
+        </div>
+        <div class="card">
+            <h2>Recent Births</h2>
+            <p>{{ recent_births }}</p>
+        </div>
+        <div class="card">
+            <h2>Milk Production (This Month)</h2>
+            <p>{{ milk_data }}</p>
+        </div>
+        <div class="card">
+            <h2>Sales Revenue</h2>
+            <p>{{ sales_data }}</p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="sectionManagement" class="tab-content">
+            <div class="tab-buttons">
+                <button class="tab-button" onclick="openTab('addSectionTab')">Add Section</button>
+                <button class="tab-button" onclick="openTab('viewSectionsTab')">View Sections</button>
+            </div>
+
+            <div id="addSectionTab" class="tab-content">
+                <h2>Add New Section</h2>
+                <form method="POST" action="/add_section">
+                    <label for="section_name">Section Name:</label>
+                    <input type="text" id="section_name" name="section_name" required>
+                    <label for="section_manager">Section Manager:</label>
+                    <input type="text" id="section_manager" name="section_manager" required>
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="3" required></textarea>
+                    <button class="submit-button" type="submit">Add Section</button>
+                </form>
+            </div>
+
+            <div id="viewSectionsTab" class="tab-content">
+                <h2>Existing Sections</h2>
+                <table class="sections-table">
+                    <thead>
+                        <tr>
+                            <th>Section ID</th>
+                            <th>Section Name</th>
+                            <th>Manager</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for section in sections %}
+                        <tr>
+                            <td>{{ section["SectionID"] }}</td>
+                            <td>{{ section["SectionName"] }}</td>
+                            <td>{{ section["SectionManager"] }}</td>
+                            <td>{{ section["Description"] }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" style="text-align: center;">No sections found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="auditTrail" class="tab-content">
+            <h2>Audit Trail</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in audit_logs %}
+                    <tr>
+                        <td>{{ log["User"] }}</td>
+                        <td>{{ log["Action"] }}</td>
+                        <td>{{ log["Timestamp"] }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align: center;">No audit logs available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
+            document.getElementById(tabId).classList.add('active-tab');
+        }
+
+        function showAuditTrail() {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            document.getElementById("auditTrail").style.display = "block";
+            document.querySelectorAll('.card').forEach(card => card.style.display = 'none'); // Hide dashboard cards
+        }
+
+        function showSectionManagement() {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            document.getElementById("sectionManagement").style.display = "block";
+            document.querySelectorAll('.card').forEach(card => card.style.display = 'block'); // Show dashboard cards when switching back
+        }
+
+    </script>
+
 </body>
 </html>

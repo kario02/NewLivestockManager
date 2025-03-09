@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e8f5e9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        header {
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 1.8em;
+            margin: 0 auto 20px;
+            width: 90%;
+            border-radius: 10px;
+        }
+
+        /* Tabs Styling */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background-color: #1f9733;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+            color: white;
+        }
+
+        .tab:hover {
+            background: #27b53e;
+        }
+
+        .tab.active {
+            background: #2e7d32;
+            color: white;
+        }
+
+        /* Content sections */
+        .content {
+            display: none;
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* User Table */
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .user-table th, .user-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .user-table th {
+            background-color: #38913d;
+            color: white;
+        }
+
+        .user-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .user-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Form Container */
+        .form-container {
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            color: #000000;
+        }
+
+        .form-container form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .form-container input,
+        .form-container select,
+        .form-container button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: calc(33% - 20px);
+        }
+
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .form-container button.delete {
+            background-color: #f44336;
+        }
+
+        .form-container button.delete:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+
+<header>User Management</header>
+
+<!-- Tabs -->
+<div class="tabs">
+    <div class="tab" onclick="showTab('addUserTab', this)">Add New User</div>
+    <div class="tab" onclick="showTab('manageUserTab', this)">Manage Users</div>
+</div>
+
+<!-- Add User Form -->
+<div id="addUserTab" class="content">
+    <div class="form-container">
+        <h2>Add New User</h2>
+        <form method="POST" action="/add_user">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="text" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <select name="role" required>
+                <option value="">Select Role</option>
+                <option value="admin">Admin</option>
+                <option value="records_manager">Records Manager</option>
+                <option value="department_head">Department Head</option>
+                <option value="livestock_manager">Livestock Manager</option>
+            </select>
+            <button type="submit">Add User</button>
+        </form>
+    </div>
+</div>
+
+<!-- Manage Users Table -->
+<div id="manageUserTab" class="content">
+    <div class="form-container">
+        <h2>Manage Existing Users</h2>
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user[0] }}</td>
+                    <td>{{ user[1] }}</td>
+                    <td>
+                        <form method="POST" action="/delete_user" style="display:inline;">
+                            <input type="hidden" name="username" value="{{ user[0] }}">
+                            <button type="submit" class="delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Tab functionality
+    function showTab(tabId, element) {
+        // Hide all content sections
+        document.querySelectorAll('.content').forEach(tab => tab.style.display = 'none');
+
+        // Show the selected tab
+        document.getElementById(tabId).style.display = 'block';
+
+        // Remove 'active' class from all tabs
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+
+        // Add 'active' class to the clicked tab
+        if (element) {
+            element.classList.add('active');
+        }
+    }
+
+    // Ensure no tab is active on page load
+    document.querySelectorAll('.content').forEach(tab => tab.style.display = 'none');
+</script>
+
+</body>
+</html>

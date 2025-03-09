@@ -3,112 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Help - Livestock Management System</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f9;
+            background: #f4f7f6;
             margin: 0;
             padding: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
             color: #333;
+        }
+
+        header {
+            background: #167726;
+            color: white;
+            padding: 20px;
             text-align: center;
-            margin-bottom: 20px;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
+            font-size: 1.8em;
             font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 15px;
         }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-top: 5px;
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        button {
-            display: inline-block;
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 80%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 1em;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(42, 188, 10, 0.5);
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .faq-section, .modules {
+            margin-bottom: 20px;
+        }
+
+        .faq-section h3, .modules h3, .contact-section h3 {
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .faq-item {
+            background: #ecf0f1;
+            padding: 15px;
             border-radius: 5px;
+            margin-bottom: 10px;
             cursor: pointer;
+            transition: background 0.3s ease-in-out;
         }
-        button:hover {
-            background-color: #0056b3;
+
+        .faq-item:hover {
+            background: #d5dbdb;
         }
-        .info-section {
-            margin-top: 30px;
+
+        .faq-answer {
+            display: none;
+            padding: 10px;
+            background: white;
+            border-left: 4px solid #2c3e50;
+            margin-top: 5px;
+            border-radius: 5px;
         }
-        .info-section h2 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+
+        .modules ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
-        .info-section p {
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-        .info-section .icon {
-            font-size: 1.5rem;
-            color: #007bff;
-            margin-right: 10px;
-        }
-        .info-section .info-item {
+
+        .modules li {
+            width: 48%;
+            padding: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .modules li:hover {
+            background: #d5dbdb;
+        }
+
+        .modules li img {
+            width: 30px;
+            margin-right: 10px;
+        }
+
+        .contact-section {
+            text-align: center;
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 8px;
+        }
+
+        .contact-section p {
+            margin: 10px 0;
+        }
+
+        .contact-section a {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-section a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Help & Support</h1>
-        <form method="POST" action="/submit_help_request">
-            <div class="form-group">
-                <label for="issue">Please state your problem:</label>
-                <textarea id="issue" name="issue" rows="4" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="email">Your Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <button type="submit">Submit</button>
-        </form>
-        <div class="info-section">
-            <h2>Frequently Asked Questions</h2>
-            <div class="info-item">
-                <i class="fas fa-question-circle icon"></i>
-                <p><strong>How do I register a new calf?</strong> To register a new calf, go to the Calvings section and fill out the registration form.</p>
-            </div>
-            <div class="info-item">
-                <i class="fas fa-question-circle icon"></i>
-                <p><strong>How can I add health records?</strong> Navigate to the Calvings section and fill out the health record form.</p>
-            </div>
-            <div class="info-item">
-                <i class="fas fa-question-circle icon"></i>
-                <p><strong>How do I view daily schedules?</strong> You can view daily schedules by entering the calf ID in the schedules section under Calvings.</p>
-            </div>
+
+<header>Help Center - Livestock Management System</header>
+
+<div class="container">
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" placeholder="Search help topics...">
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <h3>Frequently Asked Questions</h3>
+        <div class="faq-item" onclick="toggleFAQ(1)">
+            <strong>How do I register a new animal?</strong>
+        </div>
+        <div class="faq-answer" id="faq1">
+            Navigate to the **Animal Management** module and click on **"Register Cow"** to add a new animal.
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(2)">
+            <strong>How can I add vaccination records?</strong>
+        </div>
+        <div class="faq-answer" id="faq2">
+            In the **Health Management** section, go to **Vaccination Records** and add a new vaccination entry.
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(3)">
+            <strong>Where can I generate reports?</strong>
+        </div>
+        <div class="faq-answer" id="faq3">
+            Reports can be generated under **Reports and Analytics**. You can filter reports based on **Animal Health, Breeding, or Milk Production**.
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Modules Help -->
+    <div class="modules">
+        <h3>Module Help</h3>
+        <ul>
+            <li><img src="/static/icons/cow.png" alt="Animal"> **Animal Management** - Register and search for animals.</li>
+            <li><img src="/static/icons/breeding.png" alt="Breeding"> **Breeding Management** - Track breeding and insemination records.</li>
+            <li><img src="/static/icons/health.png" alt="Health"> **Health Management** - Log treatments and vaccinations.</li>
+            <li><img src="/static/icons/milk.png" alt="Milk"> **Milk Production** - Record milk production and manage sales.</li>
+            <li><img src="/static/icons/procurement.png" alt="Procurement"> **Procurement Management** - Manage livestock-related purchases.</li>
+            <li><img src="/static/icons/report.png" alt="Reports"> **Reports & Analytics** - Generate data reports and insights.</li>
+        </ul>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="contact-section">
+        <h3>Contact Support</h3>
+        <p>Need additional help? Reach out to us:</p>
+        <p>📧 Email: <a href="mailto:support@livestockmanager.com">support@livestockmanager.com</a></p>
+        <p>📞 Phone: +254 798 986 303</p>
+        <p>🌐 Website: <a href="https://www.livestockmanager.com/help">www.livestockmanager.com/help</a></p>
+    </div>
+
+</div>
+
+<script>
+    function toggleFAQ(id) {
+        let answer = document.getElementById("faq" + id);
+        if (answer.style.display === "block") {
+            answer.style.display = "none";
+        } else {
+            answer.style.display = "block";
+        }
+    }
+</script>
+
 </body>
 </html>

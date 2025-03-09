@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fodder Production Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e8f5e9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            width: 90%;
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 20px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background-color: #388e3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-button:hover {
+            background-color: #2e7d32;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            margin: auto;
+        }
+
+        .active-tab {
+            display: block;
+        }
+
+        .form-container {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        input, select, button {
+            padding: 10px;
+            width: 20rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #388e3c;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 22rem;
+        }
+
+        button:hover {
+            background-color: #2e7d32;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #388e3c;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Fodder Production Records</h1>
+    </header>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab-button" onclick="openTab('addRecord')">Add Fodder Production</button>
+        <button class="tab-button" onclick="openTab('viewRecords')">View Records</button>
+    </div>
+
+    <!-- Add Fodder Production Form -->
+    <div id="addRecord" class="tab-content active-tab">
+        <div class="form-container">
+            <h2>Add Fodder Production Record</h2>
+            <form method="POST" action="/fodder_production">
+                <input type="text" name="fodder_type" placeholder="Type of Fodder" required>
+                <input type="number" name="quantity" placeholder="Quantity Produced (kg)" required>
+                <input type="number" name="acreage" placeholder="Acreage (acres)" required>
+
+                <label for="planting_date">Planting Date:</label>
+                <input type="date" id="planting_date" name="planting_date" required>
+
+                <label for="cutting_date">Cutting Date:</label>
+                <input type="date" id="cutting_date" name="cutting_date" required>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Fodder Production Records Table -->
+    <div id="viewRecords" class="tab-content">
+        <h2 style="text-align: center;">Fodder Production Data</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type of Fodder</th>
+                    <th>Quantity Produced (kg)</th>
+                    <th>Acreage (acres)</th>
+                    <th>Planting Date</th>
+                    <th>Cutting Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if fodder_data %}
+                    {% for record in fodder_data %}
+                    <tr>
+                        <td>{{ record[0] }}</td>
+                        <td>{{ record[1] }}</td>
+                        <td>{{ record[2] }}</td>
+                        <td>{{ record[3] }}</td>
+                        <td>{{ record[4] }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center;">No records found</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
+            document.getElementById(tabId).classList.add('active-tab');
+        }
+    </script>
+</body>
+</html>

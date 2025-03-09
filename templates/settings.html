@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background: #284a2a;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        button:hover {
+            background: #2e8b57;
+        }
+        .switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #284a2a;
+}
+
+input:checked + .slider:before {
+    transform: translateX(14px);
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Settings</h2>
+
+        <div class="section" id="profile">
+            <h3>Profile Settings</h3>
+            <label for="profile_pic">Profile Picture:</label>
+            <input type="file" id="profile_pic" accept="image/*">
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Your Name">
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Your Email">
+            <label for="password">Change Password:</label>
+            <input type="password" id="password" placeholder="New Password">
+            <button>Save Changes</button>
+        </div>
+
+        <div class="section" id="notifications">
+            <h3>Notification Settings</h3>
+            <label class="switch">
+                <input type="checkbox" id="notificationToggle"> Enable Email Notifications
+                <span class="slider round"></span>
+            </label>
+            <label>
+                <input type="checkbox"> Enable SMS Alerts
+            </label>
+            <label for="notif_events">Notify me about:</label>
+            <select id="notif_events">
+                <option value="all">All Events</option>
+                <option value="birth">New Births</option>
+                <option value="sales">Sales Updates</option>
+            </select>
+            <button>Save Preferences</button>
+        </div>
+
+        <div class="section" id="preferences">
+            <h3>System Preferences</h3>
+            <label for="theme">Theme:</label>
+            <select id="theme">
+                <option value="light">Light Mode</option>
+                <option value="dark">Dark Mode</option>
+            </select>
+            <label for="language">Language:</label>
+            <select id="language">
+                <option value="english">English</option>
+                <option value="swahili">Swahili</option>
+            </select>
+            <button>Save Settings</button>
+        </div>
+    </div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    fetch('/get_notifications')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("notificationToggle").checked = data.notifications_enabled;
+            document.getElementById("notificationStatus").innerText = data.notifications_enabled ? "Enabled" : "Disabled";
+        });
+
+    document.getElementById("notificationToggle").addEventListener("change", function() {
+        let status = this.checked;
+        fetch('/update_notification_settings', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ notifications_enabled: status })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("notificationStatus").innerText = status ? "Enabled" : "Disabled";
+        });
+    });
+});
+</script>
+
+</body>
+</html>
